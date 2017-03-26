@@ -15,7 +15,7 @@ learning_rate = 1e-2
 log_dir = 'log/'
 
 mnist = input_data.read_data_sets('data', one_hot=True)
-n_trains = 100
+n_trains = 25
 batch_size = 100
 total_batch = int(mnist.train.num_examples / batch_size)
 
