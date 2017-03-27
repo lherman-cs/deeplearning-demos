@@ -7,11 +7,11 @@ channels = 1
 flat = width * height * channels
 
 k = 6
-k_channels = 4
+k_channels = 32
 l = 5
-l_channels = 8
-m = 392
-n = 196
+l_channels = 64
+m = 3136
+n = 1568
 n_classes = 10
 
 learning_rate = 1e-2
