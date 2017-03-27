@@ -23,7 +23,7 @@ n_trains = 25
 batch_size = 100
 total_batch = int(mnist.train.num_examples / batch_size)
 
-pkeep = 0.5
+pkeep = 0.75
 
 with tf.name_scope('ActualValue'):
     y_ = tf.placeholder(tf.float32, shape=[None, n_classes], name='y_')
