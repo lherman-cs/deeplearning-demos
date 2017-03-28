@@ -1,5 +1,7 @@
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
+import sys
+from os.path import abspath, dirname, basename, join
 
 width = 28
 height = 28
@@ -16,7 +18,7 @@ n_classes = 10
 
 learning_rate = 1e-2
 
-log_dir = 'log/'
+log_dir = join('log', basename(dirname(abspath(sys.argv[0])))
 
 mnist = input_data.read_data_sets('data', one_hot=True)
 n_trains = 25
@@ -91,7 +93,7 @@ summary_op = tf.summary.merge_all()
 
 with tf.Session() as sess:
     # Visualization
-    writer = tf.summary.FileWriter(log_dir + '1')
+    writer = tf.summary.FileWriter(log_dir)
     writer.add_graph(sess.graph)
 
     sess.run(init_op)
