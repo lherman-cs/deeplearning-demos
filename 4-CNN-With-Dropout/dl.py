@@ -18,7 +18,7 @@ n_classes = 10
 
 learning_rate = 1e-2
 
-log_dir = join('log', basename(dirname(abspath(sys.argv[0])))
+log_dir = join('log', basename(dirname(abspath(sys.argv[0]))))
 
 mnist = input_data.read_data_sets('data', one_hot=True)
 n_trains = 25
