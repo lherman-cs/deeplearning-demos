@@ -79,4 +79,4 @@ with tf.Session() as sess:
                 s = sess.run(summary_op, feed_dict=get_dict(train=True))
                 train_writer.add_summary(s, n_train*total_batch+n_batch)
                 # Test
-                s = sess.run(summary_op, feed_dict=get_dict(train=False)
+                s = sess.run(summary_op, feed_dict=get_dict(train=False))
