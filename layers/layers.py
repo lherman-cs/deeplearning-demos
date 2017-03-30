@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-def conv_layer(input, side, channels_in, channels_out, name='conv_layer'):
+def conv_layer(input, side, channels_in, channels_out, stride=2, name='conv_layer'):
     with tf.name_scope(name):
         w = tf.Variable(tf.truncated_normal([side, side, channels_in,
                         channels_out]), name='W')
@@ -12,7 +12,8 @@ def conv_layer(input, side, channels_in, channels_out, name='conv_layer'):
 
         tf.summary.histogram('weights', w)
         tf.summary.histogram('biases', b)
-        return tf.nn.max_pool(act, [1, 2, 2, 1], [1, 2, 2, 1], padding='SAME')
+        return tf.nn.max_pool(act, [1, 2, 2, 1], [1, stride, stride, 1],
+                              padding='SAME')
 
 def fc_layer(input, channels_in, channels_out, name='fc_layer'):
     with tf.name_scope(name):
