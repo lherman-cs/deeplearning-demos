@@ -21,6 +21,7 @@ def fc_layer(input, channels_in, channels_out, name='fc_layer'):
                         name='W')
         b = tf.Variable(tf.truncated_normal([channels_out]),
                         name='B')
+        pkeep = tf.constant(0.75, dtype=tf.float32, name='pkeep')
 
         tf.summary.histogram('weights', w)
         tf.summary.histogram('biases', b)
