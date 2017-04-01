@@ -16,11 +16,11 @@ channels = config.CHANNELS
 flat = config.FLAT
 n_classes = config.N_CLASSES
 
-k = 6
+k = 5
 k_channels = 16
-l = 5
+l = 4
 l_channels = 32
-m = 4
+m = 3
 m_channels = 64
 n = 3136
 o = 1568
@@ -43,9 +43,9 @@ with tf.name_scope('InputLayer'):
 
 with tf.name_scope('NetworkModel'):
     x_image = tf.reshape(x, [-1, width, height, channels])
-    y1 = layers.conv_layer(x_image, k, channels, k_channels)
+    y1 = layers.conv_layer(x_image, k, channels, k_channels, stride=1)
     y2 = layers.conv_layer(y1, l, k_channels, l_channels)
-    y3 = layers.conv_layer(y2, m, l_channels, m_channels, stride=1)
+    y3 = layers.conv_layer(y2, m, l_channels, m_channels)
     y4_flat = tf.reshape(y3, [-1, n])
     y4 = layers.fc_layer(y4_flat, n, o)
     y = layers.output_layer(y4, o, n_classes)
