@@ -16,11 +16,11 @@ channels = config.CHANNELS
 flat = config.FLAT
 n_classes = config.N_CLASSES
 
-k = 6656
-l = 3328
-m = 1664
-n = 832
-o = 416
+k = 3952
+l = 1976
+m = 988
+n = 494
+o = 247
 learning_rate = 1e-2
 
 mnist = input_data.read_data_sets('data', one_hot=True)
