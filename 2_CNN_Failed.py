@@ -17,11 +17,13 @@ flat = config.FLAT
 n_classes = config.N_CLASSES
 
 k = 6
-k_channels = 32
+k_channels = 4
 l = 5
-l_channels = 64
-m = 3136
-n = 1568
+l_channels = 8
+m = 4
+m_channels = 16
+n = 784
+o = 392
 n_classes = 10
 learning_rate = 1e-2
 
@@ -42,11 +44,12 @@ with tf.name_scope('InputLayer'):
 
 with tf.name_scope('NetworkModel'):
     x_image = tf.reshape(x, [-1, width, height, channels])
-    y1 = layers.conv_layer(x_image, k, channels, k_channels)
+    y1 = layers.conv_layer(x_image, k, channels, k_channels, stride=1)
     y2 = layers.conv_layer(y1, l, k_channels, l_channels)
-    y3_flat = tf.reshape(y2, [-1, m])
-    y3 = layers.fc_layer(y3_flat, m, n)
-    y = layers.output_layer(y3, n, n_classes)
+    y3 = layers.conv_layer(y2, l, l_channels, m_channels)
+    y4_flat = tf.reshape(y3, [-1, n])
+    y4 = layers.fc_layer(y4_flat, n, o)
+    y = layers.output_layer(y4, o, n_classes)
 
 with tf.name_scope('Train'):
     loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y_,

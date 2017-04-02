@@ -16,8 +16,8 @@ channels = config.CHANNELS
 flat = config.FLAT
 n_classes = config.N_CLASSES
 
-cell_size = 512
-n_layers = 3
+cell_size = 119
+n_layers = 2
 
 mnist = input_data.read_data_sets('data', one_hot=True)
 total_batch = int(mnist.train.num_examples / batch_size)
@@ -35,12 +35,12 @@ with tf.name_scope('InputLayer'):
     x = tf.placeholder(tf.float32, shape=[None, flat], name='x')
 
 with tf.name_scope('NetworkModel'):
-    x_image = tf.reshape(x, [-1, width, height])
+    x_image = tf.reshape(x, [-1, height, width])
     cell = tf.contrib.rnn.GRUCell(cell_size)
     mcell = tf.contrib.rnn.MultiRNNCell([cell] * n_layers, state_is_tuple=False)
     Hr, H = tf.nn.dynamic_rnn(mcell, x_image, dtype=tf.float32)
-    Hf = tf.reshape(Hr, [-1, width * cell_size], name=None)
-    y = layers.output_layer(Hf, width * cell_size, n_classes, name='output_layer')
+    Hf = tf.reshape(Hr, [-1, height * cell_size], name=None)
+    y = layers.output_layer(Hf, height * cell_size, n_classes, name='output_layer')
 
 with tf.name_scope('Train'):
     loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y_,
