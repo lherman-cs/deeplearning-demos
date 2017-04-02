@@ -23,7 +23,7 @@ l_channels = 8
 m = 4
 m_channels = 16
 n = 784
-o = 392
+o = 1176
 n_classes = 10
 
 mnist = input_data.read_data_sets('data', one_hot=True)
