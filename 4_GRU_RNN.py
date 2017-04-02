@@ -16,7 +16,7 @@ channels = config.CHANNELS
 flat = config.FLAT
 n_classes = config.N_CLASSES
 
-cell_size = 119
+cell_size = 150
 n_layers = 2
 
 mnist = input_data.read_data_sets('data', one_hot=True)

@@ -17,13 +17,13 @@ flat = config.FLAT
 n_classes = config.N_CLASSES
 
 k = 6
-k_channels = 4
+k_channels = 6
 l = 5
-l_channels = 8
+l_channels = 12
 m = 4
-m_channels = 16
-n = 784
-o = 1176
+m_channels = 24
+n = 1176
+o = 200
 n_classes = 10
 learning_rate = 1e-2
 

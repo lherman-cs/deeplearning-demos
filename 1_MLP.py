@@ -16,11 +16,11 @@ channels = config.CHANNELS
 flat = config.FLAT
 n_classes = config.N_CLASSES
 
-k = 3952
-l = 1976
-m = 988
-n = 494
-o = 247
+k = 4352
+l = 2176
+m = 1088
+n = 544
+o = 272
 
 mnist = input_data.read_data_sets('data', one_hot=True)
 
