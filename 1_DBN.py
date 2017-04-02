@@ -21,7 +21,6 @@ l = 1976
 m = 988
 n = 494
 o = 247
-learning_rate = 1e-2
 
 mnist = input_data.read_data_sets('data', one_hot=True)
 
@@ -56,7 +55,7 @@ with tf.name_scope('NetworkModel'):
 with tf.name_scope('Train'):
     loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y_,
                             logits=y), name='loss')
-    train = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss)
+    train = tf.train.AdamOptimizer().minimize(loss)
 
 with tf.name_scope('Accuracy'):
     correct_predictions = tf.equal(tf.argmax(y, axis=1), tf.argmax(y_, axis=1))
