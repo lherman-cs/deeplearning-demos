@@ -28,13 +28,20 @@ n_classes = 10
 learning_rate = 1e-2
 
 mnist = input_data.read_data_sets('data', one_hot=True)
-total_batch = int(mnist.train.num_examples / batch_size)
 
-def get_dict(train=True):
+def get_dict(train=True, batch=True):
     if train:
-        batch_x, batch_y = mnist.train.next_batch(batch_size)
-        return {x:batch_x, y_:batch_y}
-    return {x:mnist.test.images, y_:mnist.test.labels}
+        if batch:
+            batch_x, batch_y = mnist.train.next_batch(batch_size)
+            return {x:batch_x, y_:batch_y}
+        else:
+            return {x:mnist.train.images, y_:mnist.train.labels}
+    else:
+        if batch:
+            batch_x, batch_y = mnist.test.next_batch(batch_size)
+            return {x:batch_x, y_:batch_y}
+        else:
+            return {x:mnist.test.images, y_:mnist.test.labels}
 
 with tf.name_scope('ActualValue'):
     y_ = tf.placeholder(tf.float32, shape=[None, n_classes], name='y_')
@@ -76,12 +83,11 @@ with tf.Session() as sess:
     sess.run(init_op)
     for n_train in range(n_trains):
         print("Training {}...".format(n_train))
-        for n_batch in range(total_batch):
-            _ = sess.run([train], feed_dict=get_dict(train=True))
-            if n_batch % 5 == 0:
-                # Train
-                s = sess.run(summary_op, feed_dict=get_dict(train=True))
-                train_writer.add_summary(s, n_train*total_batch+n_batch)
-                # Test
-                s = sess.run(summary_op, feed_dict=get_dict(train=False))
-                test_writer.add_summary(s, n_train*total_batch+n_batch)
+        _ = sess.run([train], feed_dict=get_dict(train=True, batch=True))
+        if n_train % 100 == 0:
+            # Train
+            s = sess.run(summary_op, feed_dict=get_dict(train=True, batch=False))
+            train_writer.add_summary(s, n_train)
+            # Test
+            s = sess.run(summary_op, feed_dict=get_dict(train=False, batch=False))
+            test_writer.add_summary(s, n_train)
