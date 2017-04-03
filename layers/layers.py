@@ -37,3 +37,14 @@ def output_layer(input, channels_in, channels_out, name='output_layer'):
         tf.summary.histogram('weights', w)
         tf.summary.histogram('biases', b)
         return tf.matmul(input, w) + b
+
+def ae_layer(input, channels_in, channels_out, name='fc_layer'):
+    with tf.name_scope(name):
+        w = tf.Variable(tf.truncated_normal([channels_in, channels_out]),
+                        name='W')
+        b = tf.Variable(tf.truncated_normal([channels_out]),
+                        name='B')
+
+        tf.summary.histogram('weights', w)
+        tf.summary.histogram('biases', b)
+        return tf.nn.sigmoid(tf.matmul(input, w) + b)
