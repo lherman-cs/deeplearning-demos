@@ -81,7 +81,7 @@ with tf.Session() as sess:
     test_writer = tf.summary.FileWriter(test_dir)
 
     sess.run(init_op)
-    for n_train in range(n_trains):
+    for n_train in range(1, n_trains+1):
         print("Training {}...".format(n_train))
         _ = sess.run([train], feed_dict=get_dict(train=True, batch=True))
         if n_train % 100 == 0:
