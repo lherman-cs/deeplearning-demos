@@ -21,6 +21,7 @@ l = 500
 m = 30
 n = l
 o = k
+num_imgs = 10
 
 mnist = input_data.read_data_sets('data', one_hot=True)
 
@@ -61,8 +62,8 @@ with tf.name_scope('Accuracy'):
 # Add image summaries
 x_img = tf.reshape(x, [-1, height, width, channels]) # input
 y_img = tf.reshape(y, [-1, height, width, channels]) # reconstructed
-tf.summary.image('InputImage', x_img)
-tf.summary.image('OutputImage', y_img)
+tf.summary.image('InputImage', x_img, max_outputs=num_imgs)
+tf.summary.image('OutputImage', y_img, max_outputs=num_imgs)
 
 # Add scalar summaries
 tf.summary.scalar('Loss', loss)
