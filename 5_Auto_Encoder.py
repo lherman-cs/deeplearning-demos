@@ -16,8 +16,8 @@ channels = config.CHANNELS
 flat = config.FLAT
 n_classes = config.N_CLASSES
 
-k = 1000
-l = 500
+k = 100
+l = 50
 m = 30
 n = l
 o = k
