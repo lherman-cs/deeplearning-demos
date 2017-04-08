@@ -38,7 +38,7 @@ def output_layer(input, channels_in, channels_out, name='output_layer'):
         tf.summary.histogram('biases', b)
         return tf.matmul(input, w) + b
 
-def ae_layer(input, channels_in, channels_out, name='fc_layer'):
+def ae_layer(input, channels_in, channels_out, name='ae_layer'):
     with tf.name_scope(name):
         w = tf.Variable(tf.truncated_normal([channels_in, channels_out]),
                         name='W')
