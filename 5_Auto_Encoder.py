@@ -21,7 +21,7 @@ l = 500
 m = 30
 n = l
 o = k
-num_imgs = 10
+num_imgs = 3
 
 mnist = input_data.read_data_sets('data', one_hot=True)
 
