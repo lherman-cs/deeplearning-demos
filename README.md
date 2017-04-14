@@ -1,8 +1,9 @@
 # deeplearning-demos
 Deep learning demos using MNIST data set with multiple neural network models
 
-To run the model, simply choose the model first:
+To run the model:
 ---------
+Simply choose the model first:
 * 1_MLP.py
 * 2_CNN_Failed.py
 * 3_CNN.py
