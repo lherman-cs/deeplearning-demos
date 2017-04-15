@@ -1,5 +1,5 @@
 # deeplearning-demos
-Deep learning demos using MNIST data set with multiple neural network models
+Deep learning demos using the MNIST data set with multiple neural network models.
 
 To run the model:
 ---------
