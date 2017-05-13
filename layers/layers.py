@@ -48,3 +48,20 @@ def ae_layer(input, channels_in, channels_out, name='ae_layer'):
         tf.summary.histogram('weights', w)
         tf.summary.histogram('biases', b)
         return tf.nn.sigmoid(tf.matmul(input, w) + b)
+
+def rbm_layer(input, channels_in, channels_out, name='rbm_layer'):
+    with tf.name_scope(name):
+        # Encoder Variables
+        w = tf.Variable(tf.truncated_normal([channels_in, channels_out]))
+        _b = tf.Variable(tf.truncated_normal([channels_out]))
+
+        # reconstructor Varables
+        b = tf.Variable(tf.truncated_normal([channels_in]))
+
+
+        _y = tf.nn.sigmoid(tf.matmul(input, w) + _b)
+        y = tf.nn.sigmoid(tf.matmul(_y, tf.transpose(w)) + b)
+
+        tf.summary.histogram('weights', w)
+
+        return y
