@@ -24,19 +24,21 @@ o = 272
 
 mnist = input_data.read_data_sets('data', one_hot=True)
 
+
 def get_dict(train=True, batch=True):
     if train:
         if batch:
             batch_x, batch_y = mnist.train.next_batch(batch_size)
-            return {x:batch_x, y_:batch_y}
+            return {x: batch_x, y_: batch_y}
         else:
-            return {x:mnist.train.images, y_:mnist.train.labels}
+            return {x: mnist.train.images, y_: mnist.train.labels}
     else:
         if batch:
             batch_x, batch_y = mnist.test.next_batch(batch_size)
-            return {x:batch_x, y_:batch_y}
+            return {x: batch_x, y_: batch_y}
         else:
-            return {x:mnist.test.images, y_:mnist.test.labels}
+            return {x: mnist.test.images, y_: mnist.test.labels}
+
 
 with tf.name_scope('ActualValue'):
     y_ = tf.placeholder(tf.float32, shape=[None, n_classes], name='y_')
@@ -54,13 +56,13 @@ with tf.name_scope('NetworkModel'):
 
 with tf.name_scope('Train'):
     loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y_,
-                            logits=y), name='loss')
+                                                                  logits=y), name='loss')
     train = tf.train.AdamOptimizer().minimize(loss)
 
 with tf.name_scope('Accuracy'):
     correct_predictions = tf.equal(tf.argmax(y, axis=1), tf.argmax(y_, axis=1))
     accuracy = tf.reduce_mean(tf.cast(correct_predictions, tf.float32),
-                name='accuracy')
+                              name='accuracy')
 
 # Add scalar summaries
 tf.summary.scalar('Loss', loss)
@@ -76,7 +78,7 @@ with tf.Session() as sess:
     test_writer = tf.summary.FileWriter(test_dir)
 
     sess.run(init_op)
-    for n_train in range(1, n_trains+1):
+    for n_train in range(1, n_trains + 1):
         print("Training {}...".format(n_train))
         _ = sess.run([train], feed_dict=get_dict(train=True, batch=True))
         if n_train % 100 == 0:
