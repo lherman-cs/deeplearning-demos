@@ -1,9 +1,7 @@
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 import os
-
-# Local
-# from layers import layers
+from layers import layers
 import config
 
 model_name = config.MODEL_NAME
@@ -19,9 +17,11 @@ channels = config.CHANNELS
 flat = config.FLAT
 n_classes = config.N_CLASSES
 
-k = 50
-num_imgs = 3
 n_resize = 2
+k = 128
+l = 32
+m = k * n_resize
+num_imgs = 3
 
 mnist = input_data.read_data_sets('data', one_hot=True)
 
@@ -45,20 +45,28 @@ with tf.name_scope('InputLayer'):
     x = tf.placeholder(tf.float32, shape=[None, flat], name='x')
 
 with tf.name_scope('NetworkModel'):
-    with tf.name_scope('rbm_layer'):
-        # Encoder Variables
-        w = tf.Variable(tf.truncated_normal([flat, k]),
-                        name='W')
-        _b = tf.Variable(tf.truncated_normal([k]), name='_B')
+    with tf.name_scope('Encoder'):
+        y1 = layers.ae_layer(x, flat, k)
+        y2 = layers.ae_layer(y1, k, l)
+    with tf.name_scope('Decoder'):
+        y3 = layers.ae_layer(y2, l, m)
+        _y = layers.ae_layer(y3, m, flat * n_resize ** 2)
+        y = tf.reshape(_y, [-1, height * n_resize, width * n_resize, channels])
 
-        # reconstructor Varables
-        b = tf.Variable(tf.truncated_normal([flat]), name='B')
+        # This is just for training
+        _pool_y = tf.nn.max_pool(
+            value=y,
+            ksize=[1, n_resize, n_resize, 1],
+            strides=[1, n_resize, n_resize, 1],
+            padding='SAME',
+            name='pool_y'
+        )
 
-        _y = tf.nn.sigmoid(tf.matmul(x, w) + _b, name='_Y')
-        y = tf.nn.sigmoid(tf.matmul(_y, tf.transpose(w)) + b, name='Y')
+        pool_y = tf.reshape(_pool_y, [-1, flat])
+
 
 with tf.name_scope('Train'):
-    loss = tf.reduce_mean(tf.pow(y - x, 2), name='loss')
+    loss = tf.reduce_mean(tf.pow(pool_y - x, 2), name='loss')
     train = tf.train.AdamOptimizer().minimize(loss)
 
 with tf.name_scope('Accuracy'):
@@ -66,9 +74,8 @@ with tf.name_scope('Accuracy'):
 
 # Add image summaries
 x_img = tf.reshape(x, [-1, height, width, channels])  # input
-y_img = tf.reshape(y, [-1, height * n_resize, width * n_resize, channels])  # reconstructed
 tf.summary.image('InputImage', x_img, max_outputs=num_imgs)
-tf.summary.image('OutputImage', y_img, max_outputs=num_imgs)
+tf.summary.image('OutputImage', y, max_outputs=num_imgs)
 
 # Add scalar summaries
 tf.summary.scalar('Loss', loss)
@@ -115,15 +122,4 @@ def load(sess):
         saver.restore(sess, tf.train.latest_checkpoint(checkpoints_dir))
 
 
-def test():
-    with tf.Session() as sess:
-        load(sess)
-
-        results = sess.run([_y], feed_dict=get_dict(train=False, batch=False))
-        results[0][0].sort()
-        print(results[0][0][-10:])
-        print(len(results[0][0]))
-
-
 init()
-# init()
