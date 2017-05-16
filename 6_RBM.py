@@ -80,7 +80,7 @@ summary_op = tf.summary.merge_all()
 saver = tf.train.Saver()
 
 
-def train():
+def init():
     '''
     WARNING! This will override the trained model checkpoints.
     '''
@@ -90,7 +90,8 @@ def train():
         train_writer.add_graph(sess.graph)
         test_writer = tf.summary.FileWriter(test_dir)
 
-        os.mkdir(checkpoints_dir)
+        if not os.path.exists(checkpoints_dir):
+            os.mkdir(checkpoints_dir)
         sess.run(init_op)
 
         for n_train in range(1, n_trains + 1):
@@ -114,4 +115,4 @@ def load():
             saver.restore(sess, tf.train.latest_checkpoint(checkpoints_dir))
 
 
-train()
+init()
