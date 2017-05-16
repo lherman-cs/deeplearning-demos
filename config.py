@@ -1,9 +1,11 @@
 from os.path import join, splitext
 import sys
 
-LOG_DIR = join('log', splitext(sys.argv[0])[0])
+MODEL_NAME = splitext(sys.argv[0])[0]
+LOG_DIR = join('log', MODEL_NAME)
 TRAIN_DIR = join(LOG_DIR, 'train')
 TEST_DIR = join(LOG_DIR, 'test')
+CHECKPOINTS_DIR = 'checkpoints'
 N_TRAINS = 10000
 BATCH_SIZE = 100
 
