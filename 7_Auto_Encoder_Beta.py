@@ -17,10 +17,7 @@ channels = config.CHANNELS
 flat = config.FLAT
 n_classes = config.N_CLASSES
 
-n_resize = 2
-k = 128
-l = 32
-m = k * n_resize
+k = 30
 num_imgs = 3
 
 mnist = input_data.read_data_sets('data', one_hot=True)
@@ -47,26 +44,12 @@ with tf.name_scope('InputLayer'):
 with tf.name_scope('NetworkModel'):
     with tf.name_scope('Encoder'):
         y1 = layers.ae_layer(x, flat, k)
-        y2 = layers.ae_layer(y1, k, l)
     with tf.name_scope('Decoder'):
-        y3 = layers.ae_layer(y2, l, m)
-        _y = layers.ae_layer(y3, m, flat * n_resize ** 2)
-        y = tf.reshape(_y, [-1, height * n_resize, width * n_resize, channels])
-
-        # This is just for training
-        _pool_y = tf.nn.max_pool(
-            value=y,
-            ksize=[1, n_resize, n_resize, 1],
-            strides=[1, n_resize, n_resize, 1],
-            padding='SAME',
-            name='pool_y'
-        )
-
-        pool_y = tf.reshape(_pool_y, [-1, flat])
+        y = layers.ae_layer(y1, k, flat)
 
 
 with tf.name_scope('Train'):
-    loss = tf.reduce_mean(tf.pow(pool_y - x, 2), name='loss')
+    loss = tf.reduce_mean(tf.pow(y - x, 2), name='loss')
     train = tf.train.AdamOptimizer().minimize(loss)
 
 with tf.name_scope('Accuracy'):
@@ -74,8 +57,9 @@ with tf.name_scope('Accuracy'):
 
 # Add image summaries
 x_img = tf.reshape(x, [-1, height, width, channels])  # input
+y_img = tf.reshape(y, [-1, height, width, channels])  # Reconstruct
 tf.summary.image('InputImage', x_img, max_outputs=num_imgs)
-tf.summary.image('OutputImage', y, max_outputs=num_imgs)
+tf.summary.image('OutputImage', y_img, max_outputs=num_imgs)
 
 # Add scalar summaries
 tf.summary.scalar('Loss', loss)
