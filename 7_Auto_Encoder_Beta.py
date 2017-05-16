@@ -8,7 +8,7 @@ model_name = config.MODEL_NAME
 train_dir = config.TRAIN_DIR
 test_dir = config.TEST_DIR
 checkpoints_dir = config.CHECKPOINTS_DIR
-n_trains = config.N_TRAINS
+n_trains = config.N_TRAINS * 2
 batch_size = config.BATCH_SIZE
 
 width = config.WIDTH
@@ -17,7 +17,7 @@ channels = config.CHANNELS
 flat = config.FLAT
 n_classes = config.N_CLASSES
 
-k = 30
+k = 100
 num_imgs = 3
 
 mnist = input_data.read_data_sets('data', one_hot=True)
