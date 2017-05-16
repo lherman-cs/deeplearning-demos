@@ -112,3 +112,6 @@ def load():
     with tf.Session() as sess:
         if os.path.exists(checkpoints_dir):
             saver.restore(sess, tf.train.latest_checkpoint(checkpoints_dir))
+
+
+train()
