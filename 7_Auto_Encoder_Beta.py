@@ -8,7 +8,7 @@ model_name = config.MODEL_NAME
 train_dir = config.TRAIN_DIR
 test_dir = config.TEST_DIR
 checkpoints_dir = config.CHECKPOINTS_DIR
-n_trains = config.N_TRAINS * 2
+n_trains = config.N_TRAINS ** 2
 batch_size = config.BATCH_SIZE
 
 width = config.WIDTH
